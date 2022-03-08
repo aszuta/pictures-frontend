@@ -64,13 +64,14 @@ export const actions = {
     return res.data;
   },
 
+  // eslint-disable-next-line consistent-return
   async checkRefreshToken({ dispatch }) {
     try {
       const accessToken = await this.$cookies.get('authcookie');
       console.log(accessToken);
 
       if (!accessToken) {
-        await dispatch('refresh');
+        return await dispatch('refresh');
       }
 
       const decoded = await jwtDecode(accessToken);
@@ -81,7 +82,7 @@ export const actions = {
       console.log(expDate);
 
       if (expDate > exp) {
-        await dispatch('refresh');
+        return await dispatch('refresh');
       }
     } catch (error) {
       console.log(error);
@@ -89,17 +90,16 @@ export const actions = {
   },
 
   async refresh({ commit }) {
-    const res = await this.$axios.get('/api/user/refresh', {
+    this.$cookies.removeAll();
+    await this.$axios.get('/api/user/refresh', {
       withCredentials: true,
     });
-    console.log(res);
-    this.$cookies.removeAll();
-    this.$cookies.set('authcookie', res.data.accessToken, {
-      expires: new Date(Date.now() + 5 * 60 * 1000),
-    });
-    this.$cookies.set('refreshtoken', res.data.refreshToken, {
-      httpOnly: true,
-    });
+    // this.$cookies.set('authcookie', res.data.accessToken, {
+    //   expires: new Date(Date.now() + 5 * 60 * 1000),
+    // });
+    // this.$cookies.set('refreshtoken', res.data.refreshToken, {
+    //   httpOnly: true,
+    // });
     const token = this.$cookies.get('authcookie');
     commit('setAccessToken', token);
   },

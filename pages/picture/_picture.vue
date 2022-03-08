@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>{{ picture.title }}</div>
-    <div>{{ picture.filepath }}</div>
+     <img :src="`/public/${picture.filename}`" alt="">
   </div>
 </template>
 

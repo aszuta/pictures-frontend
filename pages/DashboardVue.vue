@@ -13,7 +13,7 @@
       <nuxt-link :to="`picture/${picture.filename}`">{{ picture.title }}</nuxt-link>
       <div>{{ picture.filename }}</div>
       <div>{{ picture.filepath }}</div>
-      <img :src="`./uploads/files/${picture.filename}`" alt="">
+      <img :src="`/public/${picture.filename}`" alt="">
       <button @click="deletePicture(picture.id)">Delete</button>
     </div>
   </div>
