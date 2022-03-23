@@ -86,6 +86,7 @@ export const actions = {
       }
     } catch (error) {
       console.log(error);
+      this.$router.push('/LoginVue');
     }
   },
 
@@ -94,12 +95,6 @@ export const actions = {
     await this.$axios.get('/api/user/refresh', {
       withCredentials: true,
     });
-    // this.$cookies.set('authcookie', res.data.accessToken, {
-    //   expires: new Date(Date.now() + 5 * 60 * 1000),
-    // });
-    // this.$cookies.set('refreshtoken', res.data.refreshToken, {
-    //   httpOnly: true,
-    // });
     const token = this.$cookies.get('authcookie');
     commit('setAccessToken', token);
   },

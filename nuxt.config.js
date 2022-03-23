@@ -51,8 +51,8 @@ export default {
   },
 
   proxy: {
-    '/api': 'http://localhost:8000',
-    '/public': 'http://localhost:8000',
+    '/api/': 'http://localhost:8000',
+    '/public/': 'http://localhost:8000',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

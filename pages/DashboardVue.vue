@@ -1,20 +1,29 @@
 <template>
   <div>
-    Witaj {{ currentUser.name }}<br>
-    <form @submit.prevent="sendFile" enctype="multipart/form-data">
-      <label for="title">Dodaj tytuł: </label>
-      <input id="title" v-model="title" type="text" name="" placeholder="Title">
-      <label for="file">Dodaj obrazek: </label>
-      <input id="file" type="file" ref="file" @change="selectFile">
-      <button>Send</button>
-    </form>
-    <button @click.prevent="logOut">Log Out</button>
-    <div v-for="picture in pictures" :key="picture.id">
-      <nuxt-link :to="`picture/${picture.filename}`">{{ picture.title }}</nuxt-link>
-      <div>{{ picture.filename }}</div>
-      <div>{{ picture.filepath }}</div>
-      <img :src="`/public/${picture.filename}`" alt="">
-      <button @click="deletePicture(picture.id)">Delete</button>
+    <header class="global-header">
+      <div class="top">
+        <div class="row">
+          <div class="global-logo">Jakieś logo</div>
+          <button class="modal">Dodaj obrazek</button>
+          <div class="user-name">{{ currentUser.name }}</div>
+          <button class="logout-button" @click.prevent="logOut">Log Out</button>
+        </div>
+      </div>
+    </header>
+    <PictureCard
+      v-for="picture in itemsForList"
+      :key="picture.id"
+      :postId="picture.id"
+      :userId="currentUser.id"
+      :createdBy="picture.createdBy"
+      :title="picture.title"
+      :filename="picture.filename"
+      :filepath="picture.filepath"
+    />
+    <div class="pagination-component">
+      <span v-for="(item, index) in new Array(numberPages)" :key="index">
+        <button @click="pageNumber = index + 1">{{ index + 1 }}</button>
+      </span>
     </div>
   </div>
 </template>
@@ -30,11 +39,19 @@ export default {
     return {
       title: '',
       file: '',
+      perPage: 2,
+      pageNumber: 1,
     };
   },
   computed: {
     currentUser() {
       return this.$store.state.user.currentUser;
+    },
+    itemsForList() {
+      return this.pictures.slice((this.pageNumber - 1) * this.perPage, this.pageNumber * this.perPage);
+    },
+    numberPages() {
+      return Math.ceil(this.pictures.length / this.perPage);
     },
   },
   methods: {
@@ -48,16 +65,11 @@ export default {
       formData.append('title', this.title);
       formData.append('createdBy', this.currentUser.id);
       formData.append('picture', this.file);
-      await this.$axios.post('/api/picture/file', formData);
-      this.$nuxt.refresh();
-    },
-    async deletePicture(id) {
-      await this.$axios.delete(`api/picture/file/${id}`);
+      await this.$store.dispatch('picture/addPicture', formData);
       this.$nuxt.refresh();
     },
     getUser() {
-      const user = this.$store.dispatch('user/getUser');
-      return user;
+      return this.$store.dispatch('user/getUser');
     },
     logOut() {
       this.$store.dispatch('user/logOutUser');
@@ -69,3 +81,7 @@ export default {
 };
 
 </script>
+
+<style scoped>
+
+</style>
