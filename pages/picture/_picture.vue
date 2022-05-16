@@ -1,35 +1,38 @@
 <template>
-  <div>
-    <div>
-      Witaj {{ currentUser.name }}<br>
-      {{ postId }}
-      <div>{{ picture.title }}</div>
-      <img :src="`/public/${picture.filename}`" alt="">
-    </div>
-    <Reactions
+  <div class="main_content">
+    <PictureCard
+      :postId="picture.id"
+      :userId="currentUser.id"
+      :createdBy="picture.createdBy"
+      :createdAt="picture.createdAt"
+      :name="picture.name"
+      :title="picture.title"
+      :filename="picture.filename"
+      :filepath="picture.filepath"
+      :votesUp="picture.votesUp"
+      :votesDown="picture.votesDown"
+    />
+    <!-- <Reactions
       :postId="picture.id"
       :userId="currentUser.id"
       :voteType="userVote.voteType"
+    /> -->
+    <CommentContainer
+      :comments="comments"
+      :postId="picture.id"
+      :name="currentUser.name"
     />
-    <form @submit.prevent="sendComment">
-      <label for="comment">Dodaj komentarz: </label>
-      <input id="comment" v-model="content" type="text" name="" placeholder="Treść komentarza">
-      <button>Send</button>
-    </form>
-    <div v-for="comment in comments" :key="comment.id">
-      <div>{{ comment.name }}</div>
-      <div>{{ comment.content }}</div>
-      <div>{{ comment.date }}</div>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
   async asyncData({ params: { picture }, store }) {
-    const data = await store.dispatch('picture/getPicture', { filename: picture });
-    const comment = await store.dispatch(`api/comment/${data.id}`);
-    const userVote = await store.dispatch('picture/getVote', { postId: data.id });
+    console.log(picture);
+    const data = await store.dispatch('picture/getPicture', { postId: picture });
+    await store.dispatch('comment/getComments', { postId: picture });
+    const comment = await store.getters['comment/getComments'];
+    const userVote = await store.dispatch('picture/getVote', { postId: picture });
     return {
       picture: data,
       comments: comment,
@@ -49,21 +52,6 @@ export default {
     },
   },
   methods: {
-    async sendComment() {
-      const payload = {
-        postId: this.picture.id,
-        comment: {
-          name: this.currentUser.name,
-          content: this.content,
-        },
-      };
-      await this.$store.dispatch('comment/addComment', payload);
-      await this.$axios.post(`api/comment/${this.picture.id}`, {
-        name: this.currentUser.name,
-        content: this.content,
-      });
-      await this.$nuxt.refresh();
-    },
     getUser() {
       const user = this.$store.dispatch('user/getUser');
       return user;
@@ -75,6 +63,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 
 </style>

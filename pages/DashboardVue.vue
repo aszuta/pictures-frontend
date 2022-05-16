@@ -1,29 +1,35 @@
 <template>
-  <div>
-    <header class="global-header">
-      <div class="top">
-        <div class="row">
-          <div class="global-logo">Jakieś logo</div>
-          <button class="modal">Dodaj obrazek</button>
-          <div class="user-name">{{ currentUser.name }}</div>
-          <button class="logout-button" @click.prevent="logOut">Log Out</button>
-        </div>
-      </div>
-    </header>
+  <div class="main_content">
     <PictureCard
       v-for="picture in itemsForList"
       :key="picture.id"
       :postId="picture.id"
       :userId="currentUser.id"
       :createdBy="picture.createdBy"
+      :createdAt="picture.createdAt"
+      :name="picture.name"
       :title="picture.title"
       :filename="picture.filename"
       :filepath="picture.filepath"
+      :votesUp="picture.votesUp"
+      :votesDown="picture.votesDown"
     />
-    <div class="pagination-component">
-      <span v-for="(item, index) in new Array(numberPages)" :key="index">
-        <button @click="pageNumber = index + 1">{{ index + 1 }}</button>
-      </span>
+    <div class="pagination_component">
+      <ul class="pagination_container">
+        <li class="pagination_item">
+          <button class="pagination_button" :disabled="pageNumber > 1" @click="changePageNumber(pageNumber - 1)">
+            <font-awesome-icon :icon="['fas', 'angle-left']" />
+          </button>
+        </li>
+        <li v-for="(item, index) in Array(numberPages)" :key="index" class="pagination_item">
+          <button :class="['pagination_button', pageNumber == index + 1 ? 'active' : '']" @click="changePageNumber(index + 1)">{{ index + 1 }}</button>
+        </li>
+        <li class="pagination_item">
+          <button class="pagination_button" @click="changePageNumber(pageNumber + 1)">
+            <font-awesome-icon :icon="['fas', 'angle-right']" />
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -37,10 +43,8 @@ export default {
   },
   data() {
     return {
-      title: '',
-      file: '',
       perPage: 2,
-      pageNumber: 1,
+      pageNumber: Number(this.$route.query.pageNumber) || 1,
     };
   },
   computed: {
@@ -55,24 +59,17 @@ export default {
     },
   },
   methods: {
-    selectFile() {
-      // eslint-disable-next-line prefer-destructuring
-      const data = this.$refs.file.files[0];
-      this.file = data;
-    },
-    async sendFile() {
-      const formData = new FormData();
-      formData.append('title', this.title);
-      formData.append('createdBy', this.currentUser.id);
-      formData.append('picture', this.file);
-      await this.$store.dispatch('picture/addPicture', formData);
-      this.$nuxt.refresh();
+    changePageNumber(newPageNumber) {
+      this.pageNumber = newPageNumber;
+      this.$router.push({
+        path: this.$route.path,
+        query: {
+          pageNumber: newPageNumber,
+        },
+      });
     },
     getUser() {
       return this.$store.dispatch('user/getUser');
-    },
-    logOut() {
-      this.$store.dispatch('user/logOutUser');
     },
   },
   mounted() {
@@ -82,6 +79,64 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss">
+.main_content{
+  margin: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 6rem;
+
+  .pagination_component {
+    display: flex;
+    justify-content: center;
+
+    .pagination_container {
+      list-style: none;
+      display: inline-block;
+      padding: 0;
+      margin-top: 10px;
+
+      .pagination_item {
+        display: inline;
+        text-align: center;
+
+        .pagination_button {
+          float: left;
+          display: block;
+          font-size: 1.1rem;
+          padding: 0;
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          color: #fff;
+          margin-left: 3px;
+          border: 2px solid transparent;
+          background-color: transparent;
+          cursor: pointer;
+
+          &.active {
+            border: 2px solid #e6ba37;
+            border-radius: 50%;
+            color: white;
+            cursor: auto;
+          }
+
+          &:hover {
+            border: 2px solid #e6ba37;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 600px){
+  .main-content{
+    width: auto;
+  }
+}
 
 </style>

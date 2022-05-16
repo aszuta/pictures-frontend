@@ -1,13 +1,12 @@
 <template>
-  <div class="app">
-    <div class="reaction-container">
-      <span v-if="voteUpActive === true" @click="addVote('voteUp')" @keydown="addVote('voteUp')">dodano</span>
-      <span v-else @click="addVote('voteUp')" @keydown="addVote('voteUp')">&#9650;</span>
-      <div>
-        <div class="score">{{ score }}</div>
-      </div>
-      <span v-if="voteDownActive === true" @click="addVote('voteDown')" @keydown="addVote('voteDown')">dodano</span>
-      <span v-else @click="addVote('voteDown')" @keydown="addVote('voteDown')">&#9660;</span>
+  <div class="vote">
+    <div class="vote_up_container" :class="[voteUpActive ? 'active' : '']">
+      <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-up']" @click="addVote('voteUp')" @keydown="addVote('voteUp')"/>
+      <span class="vote_count">0</span>
+    </div>
+    <div class="vote_down_container" :class="voteDownActive ? 'active' : ''">
+      <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-down']" @click="addVote('voteDown')" @keydown="addVote('voteDown')"/>
+      <span class="vote_count">0</span>
     </div>
   </div>
 </template>
@@ -81,6 +80,64 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+.vote {
+  color: white;
 
+  .vote_up_container {
+    display: inline-flex;
+    font-size: 1.2rem;
+    justify-content: space-around;
+    padding: 0.3rem 1rem;
+    margin-top: 0.4rem;
+    border-radius: 5px;
+    border: 1px solid #949494;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #949494;
+      border: 1px solid #949494;
+    }
+
+    &:active {
+      background-color: #e6ba37;
+      border: 1px solid #e6ba37;
+    }
+
+    .vote_count {
+      margin-left: 15px;
+    }
+  }
+
+  .vote_down_container {
+    display: inline-flex;
+    font-size: 1.2rem;
+    justify-content: space-around;
+    padding: 0.3rem 1rem;
+    margin-top: 0.4rem;
+    border-radius: 5px;
+    border: 1px solid #949494;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #949494;
+      border: 1px solid #949494;
+    }
+
+    &:active {
+      background-color: #e6ba37;
+      border: 1px solid #e6ba37;
+    }
+
+    .vote_count {
+      margin-left: 15px;
+    }
+  }
+
+  .active {
+    background-color: #e6ba37;
+    border: 1px solid #e6ba37;
+    color: black;
+  }
+}
 </style>

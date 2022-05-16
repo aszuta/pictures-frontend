@@ -1,23 +1,28 @@
 <template>
   <div class="mainbar">
     <div class="main">
-      <div class="vote">
-        <div class="vote-container">
-          <span v-if="voteUpActive === true" @click="addVote('voteUp')" @keydown="addVote('voteUp')">dodano</span>
-          <span v-else @click="addVote('voteUp')" @keydown="addVote('voteUp')">&#9650;</span>
-          <div>
-            <div class="score">{{ score }}</div>
+      <div class="picture_container">
+        <div class="picture_header">
+          <div class="header_container">
+            <img class="container_image" src="@/assets/default_profile_image.png" alt=""/>
           </div>
-          <span v-if="voteDownActive === true" @click="addVote('voteDown')" @keydown="addVote('voteDown')">dodano</span>
-          <span v-else @click="addVote('voteDown')" @keydown="addVote('voteDown')">&#9660;</span>
+          <nuxt-link :to="`/profile/${createdBy}`" class="picture_author">{{ name }}</nuxt-link>
+          <nuxt-link :to="`/picture/${postId}`" class="picture_title">{{ title }}</nuxt-link>
         </div>
+        <div class="container">
+          <img class="container_img" :src="`/public/${filename}`" alt="">
+        </div>
+        <button v-if="createdBy === userId" class="delete_button" @click="deletePicture(postId)">Delete</button>
       </div>
-      <div class="picture-container">
-        <nuxt-link :to="`picture/${filename}`">{{ title }}</nuxt-link>
-        <div>{{ filename }}</div>
-        <div>{{ filepath }}</div>
-        <img :src="`/public/${filename}`" alt="">
-        <button @click="deletePicture(postId)">Delete</button>
+      <div class="vote">
+        <div class="vote_up_container" :class="[voteUpActive ? 'active' : '']">
+          <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-up']" @click="addVote('voteUp')" @keydown="addVote('voteUp')"/>
+          <span class="vote_count">{{ votesUp }}</span>
+        </div>
+        <div class="vote_down_container" :class="voteDownActive ? 'active' : ''">
+          <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-down']" @click="addVote('voteDown')" @keydown="addVote('voteDown')"/>
+          <span class="vote_count">{{ votesDown }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -34,6 +39,12 @@ export default {
       type: Number,
     },
     createdBy: {
+      type: Number,
+    },
+    createdAt: {
+      type: String,
+    },
+    name: {
       type: String,
     },
     title: {
@@ -44,6 +55,12 @@ export default {
     },
     filepath: {
       type: String,
+    },
+    votesUp: {
+      type: Number,
+    },
+    votesDown: {
+      type: Number,
     },
   },
   data() {
@@ -111,59 +128,144 @@ export default {
 };
 </script>
 
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-.mainbar{
-  padding-top: 80px;
-  width: auto;
+<style lang="scss">
+.mainbar {
   display: flex;
-  flex-direction: row;
   justify-content: center;
-}
-
-.jeden{
-  display: grid;
-}
-
-.dwa{
-  grid-column: 2;
-  width: auto;
-  min-width: 0;
-}
-
-.app {
-  grid-column: 1;
-  width: auto;
   align-items: center;
-  text-align: center;
-}
+  position: relative;
+  width: 100%;
+  height: 100%;
 
-.trzy {
-  padding-right: 16px;
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: center !important;
-  flex-direction: column !important;
-}
+  .main {
+    background-color: #303030;
+    border-radius: 5px;
+    margin: 1rem 3rem;
 
-div {
-  display: block;
-}
+    .picture_container {
+      color: white;
+      max-width: 610px;
 
-span {
-  border: 0;
-  background: 0;
-  font-size: 2rem;
-  color: #000000;
-  cursor: pointer;
-  text-align: center;
-}
+      .picture_header {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1rem;
 
-.score {
-  text-align: center;
-  font-size: 1.4rem;
+        .header_container {
+          display: inline-block;
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+
+          .container_image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        .picture_author {
+          margin-left: 10px;
+          color: #fff;
+        }
+
+        .picture_title {
+          margin-left: 30px;
+          color: #fff;
+          text-decoration: none;
+          font-size: 1.5rem;
+        }
+      }
+
+      .container {
+        max-width: 610px;
+
+        .container_img {
+          height: auto;
+          display: block;
+          width: 610px;
+        }
+
+        @media screen and (max-width: 610px){
+          .container_img {
+            width: 100%;
+          }
+        }
+      }
+
+      .delete_button {
+        float: right;
+        border: 2px solid red;
+        border-radius: 5px;
+        background-color: red;
+        color: black;
+        font-size: 1.2rem;
+        padding: 0.3rem 1rem;
+        margin-top: 0.4rem;
+        cursor: pointer;
+      }
+    }
+
+    .vote {
+      color: white;
+
+      .vote_up_container {
+        display: inline-flex;
+        font-size: 1.2rem;
+        justify-content: space-around;
+        padding: 0.3rem 1rem;
+        margin-top: 0.4rem;
+        border-radius: 5px;
+        border: 1px solid #949494;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #949494;
+          border: 1px solid #949494;
+        }
+
+        &:active {
+          background-color: #e6ba37;
+          border: 1px solid #e6ba37;
+        }
+
+        .vote_count {
+          margin-left: 15px;
+        }
+      }
+
+      .vote_down_container {
+        display: inline-flex;
+        font-size: 1.2rem;
+        justify-content: space-around;
+        padding: 0.3rem 1rem;
+        margin-top: 0.4rem;
+        border-radius: 5px;
+        border: 1px solid #949494;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #949494;
+          border: 1px solid #949494;
+        }
+
+        &:active {
+          background-color: #e6ba37;
+          border: 1px solid #e6ba37;
+        }
+
+        .vote_count {
+          margin-left: 15px;
+        }
+      }
+
+      .active {
+        background-color: #e6ba37;
+        border: 1px solid #e6ba37;
+        color: black;
+      }
+    }
+  }
 }
 </style>
