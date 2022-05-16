@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 export default ({
-  $axios, app, store, redirect,
+  $axios, app, /* store, redirect, */
 }) => {
   $axios.onRequest((config) => {
     const token = app.$cookies.get('authcookie');
@@ -10,12 +10,13 @@ export default ({
     }
   });
 
-  $axios.onError(async (error) => {
-    const status = error.response.data.statusCode;
-    if (status === 401) {
-      store.commit('user/setUser', null);
-      redirect('/DashboardVue');
-      // store.dispatch('user/refresh');
-    }
-  });
+  // $axios.onError(async (error) => {
+  //   const status = error.response.data.statusCode;
+  //   console.log(status);
+  //   if (status === 401) {
+  //     store.commit('user/setUser', null);
+  //     redirect('/LoginVue');
+  //     store.dispatch('user/refresh');
+  //   }
+  // });
 };

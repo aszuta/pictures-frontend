@@ -18,14 +18,22 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~assets/scss/style.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     './plugins/axios',
     './plugins/vuex-persistedstate',
-    './plugins/intervalToken',
+    { src: './plugins/intervalToken', ssr: false },
   ],
+
+  fontawesome: {
+    icons: {
+      solid: true,
+      regular: true,
+    },
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -34,6 +42,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

@@ -20,10 +20,12 @@ export const actions = {
   async addComment({ commit }, payload) {
     await this.$axios.post(`api/comment/${payload.postId}`, payload.comment);
   },
+
   async getComments({ commit }, payload) {
     const comments = await this.$axios.$get(`api/comment/${payload.postId}`);
-    commit('getComments', comments.data);
+    commit('setComments', comments);
   },
+
   async deleteComment({ commit }, payload) {
     await this.$axios.delete(`api/comment/${payload.postId}`);
   },

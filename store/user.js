@@ -18,10 +18,6 @@ export const getters = {
 };
 
 export const mutations = {
-  setLoginSuccess(state) {
-    state.setLoginSuccess = true;
-  },
-
   setAccessToken(state, token) {
     state.accessToken = token;
   },
@@ -36,7 +32,6 @@ export const actions = {
     await this.$axios.post('/api/user/login', payload, {
       withCredentials: true,
     });
-    commit('setLoginSuccess');
     const token = this.$cookies.get('authcookie');
     commit('setAccessToken', token);
   },
@@ -57,36 +52,33 @@ export const actions = {
   },
 
   async getUser({ commit }) {
-    const res = await this.$axios.get('/api/user/profile', {
+    const res = await this.$axios.$get('/api/user/profile', {
       withCredentials: true,
     });
-    commit('setUser', res.data);
-    return res.data;
+    commit('setUser', res);
+    return res;
   },
 
   // eslint-disable-next-line consistent-return
-  async checkRefreshToken({ dispatch }) {
-    try {
-      const accessToken = await this.$cookies.get('authcookie');
-      console.log(accessToken);
+  async checkRefreshToken({ state, dispatch }) {
+    if (state.currentUser !== '') {
+      try {
+        const accessToken = await this.$cookies.get('authcookie');
 
-      if (!accessToken) {
-        return await dispatch('refresh');
+        if (!accessToken) {
+          return await dispatch('refresh');
+        }
+
+        const decoded = await jwtDecode(accessToken);
+        const exp = decoded.exp - 30;
+        const expDate = Date.now() / 1000;
+
+        if (expDate > exp) {
+          return await dispatch('refresh');
+        }
+      } catch (error) {
+        this.$router.push('/LoginVue');
       }
-
-      const decoded = await jwtDecode(accessToken);
-      console.log(decoded);
-      const exp = decoded.exp - 30;
-      console.log(exp);
-      const expDate = Date.now() / 1000;
-      console.log(expDate);
-
-      if (expDate > exp) {
-        return await dispatch('refresh');
-      }
-    } catch (error) {
-      console.log(error);
-      this.$router.push('/LoginVue');
     }
   },
 

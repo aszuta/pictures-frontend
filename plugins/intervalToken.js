@@ -1,5 +1,7 @@
 export default ({ app }) => {
   setInterval(async () => {
-    await app.store.dispatch('user/checkRefreshToken');
+    if (app.store.getters['user/isLoggedIn']) {
+      await app.store.dispatch('user/checkRefreshToken');
+    }
   }, 30000);
 };
