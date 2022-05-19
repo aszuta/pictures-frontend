@@ -60,8 +60,11 @@ export default {
   },
 
   proxy: {
-    '/api/': 'http://localhost:8000',
-    '/public/': 'http://localhost:8000',
+    // '/api/': 'http://localhost:8000',
+    // '/public/': 'http://localhost:8000',
+    // https://pictureportal-backend.herokuapp.com/
+    '/api/': 'https://pictureportal-backend.herokuapp.com',
+    '/public/': 'https://pictureportal-backend.herokuapp.com',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
