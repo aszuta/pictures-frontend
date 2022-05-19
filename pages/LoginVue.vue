@@ -23,8 +23,8 @@ export default {
   middleware: ['is-logged-out'],
   data() {
     return {
-      email: 'siema@gmail.com',
-      password: 'siema123',
+      email: '',
+      password: '',
       error: '',
     };
   },

@@ -46,6 +46,7 @@ export default {
         email: this.email,
         password: this.password,
       });
+      this.$router.push('LoginVue');
     },
     async submit() {
       const data = {
