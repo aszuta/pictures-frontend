@@ -26,7 +26,7 @@
 import { userValidation } from '../helpers/formsValidation';
 
 export default {
-  middleware: ['is-logged-out'],
+  // middleware: ['is-logged-out'],
   data() {
     return {
       name: '',
