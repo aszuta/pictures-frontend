@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  middleware: ['is-logged-out'],
+  // middleware: ['is-logged-out'],
   data() {
     return {
       email: '',
