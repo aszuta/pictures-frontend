@@ -51,15 +51,15 @@ export default {
       return this.$store.state.user.currentUser;
     },
   },
-  methods: {
-    getUser() {
-      const user = this.$store.dispatch('user/getUser');
-      return user;
-    },
-  },
-  mounted() {
-    this.getUser();
-  },
+  // methods: {
+  //   getUser() {
+  //     const user = this.$store.dispatch('user/getUser');
+  //     return user;
+  //   },
+  // },
+  // mounted() {
+  //   this.getUser();
+  // },
 };
 </script>
 
