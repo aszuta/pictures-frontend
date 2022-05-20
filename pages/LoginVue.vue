@@ -32,7 +32,7 @@ export default {
     async login() {
       try {
         await this.$store.dispatch('user/loginUser', { email: this.email, password: this.password });
-        this.$router.push('/DashboardVue');
+        this.$router.push('/');
       } catch (error) {
         this.error = 'Niepoprawny login lub hasło.';
       }
