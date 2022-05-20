@@ -77,7 +77,7 @@ export const actions = {
           return await dispatch('refresh');
         }
       } catch (error) {
-        this.$router.push('/LoginVue');
+        this.$router.push('/login');
       }
     }
   },

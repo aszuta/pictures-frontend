@@ -15,7 +15,7 @@ export default ({
   //   console.log(status);
   //   if (status === 401) {
   //     store.commit('user/setUser', null);
-  //     redirect('/LoginVue');
+  //     redirect('/login');
   //     store.dispatch('user/refresh');
   //   }
   // });

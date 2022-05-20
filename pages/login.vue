@@ -1,73 +1,45 @@
 <template>
   <section class="section_container">
     <div class="dupa">
-      <form class="container_form" method="post" @submit.prevent="submit()">
-        <h1 class="form_title">Register</h1>
-        <div class="form_error">{{ errors.nameError }}</div>
-        <label for="name">Name: </label>
-        <input id="name" class="form_input" v-model="name" type="text" name="" placeholder="Name">
-        <div class="form_error">{{ errors.emailError }}</div>
+      <form class="container_form" method="post" @submit.prevent="login()">
+        <h1 class="form_title">Login</h1>
+        <div class="form_error">{{ error }}</div>
         <label for="email">Email: </label>
         <input id="email" class="form_input" v-model="email" type="text" name="" placeholder="Email">
-        <div class="form_error">{{ errors.passwordError }}</div>
         <label for="password">Password: </label>
         <input id="password" class="form_input" v-model="password" type="password" name="" placeholder="Password">
-        <button class="form_button" type="submit">Zarejestruj</button>
+        <button type="submit" class="form_button">Zaloguj</button>
       </form>
       <div class="container_info">
-        <div class="min_info">Masz konto?</div>
-        <NuxtLink to="/LoginVue" class="sign_up">Zaloguj się</NuxtLink>
+        <div class="min_info">Nie masz konto?</div>
+        <NuxtLink to="/register" class="sign_up">Zarejestruj się</NuxtLink>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import { userValidation } from '../helpers/formsValidation';
-
 export default {
   middleware: ['is-logged-out'],
   data() {
     return {
-      name: '',
       email: '',
       password: '',
-      errors: {
-        nameError: null,
-        emailError: null,
-        passwordError: null,
-      },
+      error: '',
     };
   },
   methods: {
-    async register() {
-      await this.$store.dispatch('user/registerUser', {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      });
-      this.$router.push('LoginVue');
-    },
-    async submit() {
-      const data = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      };
-      const validation = userValidation(data);
-      if (validation.errors) {
-        const { errors } = validation;
-        this.errors = {
-          nameError: errors.nameError,
-          emailError: errors.emailError,
-          passwordError: errors.passwordError,
-        };
-      } else {
-        this.register();
+    async login() {
+      try {
+        await this.$store.dispatch('user/loginUser', { email: this.email, password: this.password });
+        this.$router.push('/');
+      } catch (error) {
+        this.error = 'Niepoprawny login lub hasło.';
       }
     },
   },
 };
+
 </script>
 
 <style lang="scss">
@@ -97,9 +69,6 @@ export default {
         text-align: center;
         margin: 0.4rem 0;
         color: #ff6b6b;
-        text-transform: none;
-        letter-spacing: 0;
-        font-size: 0.9rem;
       }
 
       .form_input {

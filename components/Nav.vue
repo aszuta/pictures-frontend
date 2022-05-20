@@ -20,12 +20,12 @@
             <nuxt-link :to="`/top`" class="item_link">Top</nuxt-link>
           </li>
           <li class="list_item">
-            <div v-if="isLoggedIn === false" class="item_link">zaloguj</div>
+            <nuxt-link :to="`/login`" v-if="isLoggedIn === false" class="item_link">Zaloguj</nuxt-link>
             <nuxt-link v-else :to="`/profile/${currentUser.id}`" class="item_link">{{ currentUser.name }}</nuxt-link>
           </li>
           <li class="list_item">
             <div class="item_link">
-              <div v-if="isLoggedIn === false" class="item_link">zarejestruj</div>
+              <nuxt-link :to="`/register`" v-if="isLoggedIn === false" class="item_link">Zarejestruj</nuxt-link>
               <button v-else class="item_logout" @click.prevent="logOut">Wyloguj</button>
             </div>
           </li>
@@ -65,7 +65,7 @@ export default {
       if (this.isLoggedIn === true) {
         this.showModal = !this.showModal;
       } else {
-        this.$router.push('LoginVue');
+        this.$router.push('login');
       }
     },
     logOut() {
