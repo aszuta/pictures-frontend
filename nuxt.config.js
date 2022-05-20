@@ -13,6 +13,8 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { href: 'https://fonts.googleapis.com/css2?family=Rubik&display=swap', rel: 'stylesheet' },
     ],
   },
 
