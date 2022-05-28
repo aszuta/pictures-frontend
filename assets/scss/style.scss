@@ -1,0 +1,26 @@
+@import './main.scss';
+
+// components
+
+@import './components/Comment.scss';
+@import './components/CommentContainer.scss';
+@import './components/Nav.scss';
+@import './components/PictureCard.scss';
+@import './components/PictureForm.scss';
+@import './components/Reactions.scss';
+@import './components/Search.scss';
+
+// pages
+
+@import './pages/Home.scss';
+@import './pages/Login.scss';
+@import './pages/Register.scss';
+@import './pages/picture/picture';
+@import './pages/profile/profile';
+@import './pages/search/search';
+@import './pages/top/top';
+@import './pages/top/index.scss';
+
+// layouts
+
+@import './layouts/Default.scss';
