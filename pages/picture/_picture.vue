@@ -12,11 +12,6 @@
       :votesUp="picture.votesUp"
       :votesDown="picture.votesDown"
     />
-    <!-- <Reactions
-      :postId="picture.id"
-      :userId="currentUser.id"
-      :voteType="userVote.voteType"
-    /> -->
     <CommentContainer
       :comments="comments"
       :postId="picture.id"
@@ -28,7 +23,6 @@
 <script>
 export default {
   async asyncData({ params: { picture }, store }) {
-    console.log(picture);
     const data = await store.dispatch('picture/getPicture', { postId: picture });
     await store.dispatch('comment/getComments', { postId: picture });
     const comment = await store.getters['comment/getComments'];
@@ -51,18 +45,5 @@ export default {
       return this.$store.state.user.currentUser;
     },
   },
-  // methods: {
-  //   getUser() {
-  //     const user = this.$store.dispatch('user/getUser');
-  //     return user;
-  //   },
-  // },
-  // mounted() {
-  //   this.getUser();
-  // },
 };
 </script>
-
-<style lang="scss">
-
-</style>

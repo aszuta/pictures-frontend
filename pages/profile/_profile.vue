@@ -1,8 +1,8 @@
 <template>
   <main class="profile_main">
-    <div class="profile_container">
-      <div class="pomoc">
-        <div class="container_info">
+    <div class="main_container">
+      <div class="container_content">
+        <div class="content_info">
           <div class="image_container">
             <img class="profile_image" src="@/assets/default_profile_image.png" alt=""/>
           </div>
@@ -33,10 +33,14 @@
 
 <script>
 export default {
-  async asyncData({ store }) {
+  async asyncData({ params: { profile }, store }) {
+    const user = await store.dispatch('user/getUser', { id: profile });
     await store.dispatch('picture/getUserPictures');
     const data = await store.getters['picture/getPictures'];
-    return { pictures: data };
+    return {
+      pictures: data,
+      user,
+    };
   },
   data() {
     return {
@@ -48,67 +52,5 @@ export default {
       return this.$store.state.user.currentUser;
     },
   },
-  methods: {
-    getUser() {
-      return this.$store.dispatch('user/getUser');
-    },
-  },
-  mounted() {
-    this.getUser();
-  },
 };
 </script>
-
-<style lang="scss">
-.profile_main {
-  padding-top: 18vh;
-  display: flex;
-  justify-content: center;
-  position: relative;
-
-  .profile_container {
-    display: inherit;
-    flex-direction: column;
-    align-items: center;
-
-    .pomoc {
-      display: inherit;
-
-      .container_info {
-        display: inherit;
-        flex-direction: column;
-
-        .image_container {
-          border-radius: 50%;
-          border: 4px solid #e6ba37;
-
-          .profile_image {
-            display: inherit;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-          }
-        }
-
-        .profile_name {
-          display: inherit;
-          justify-content: center;
-          padding-top: 2vh;
-          color: white;
-        }
-      }
-    }
-
-    .container_form {
-      padding: 4vh 0;
-
-      .form_modal {
-        cursor: pointer;
-        color: #fff;
-        border-bottom: 1px solid #949494;
-      }
-    }
-  }
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="main_content">
+  <main class="layout_page">
     <PictureCard
       v-for="picture in itemsForList"
       :key="picture.id"
@@ -31,16 +31,17 @@
         </li>
       </ul>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
 export default {
   async asyncData({ store }) {
     await store.dispatch('picture/getPictures');
-    const data = await store.getters['picture/getPictures'];
-    return { pictures: data };
+    const pictures = await store.getters['picture/getPictures'];
+    return { pictures };
   },
+  name: 'Home',
   data() {
     return {
       perPage: 2,
@@ -68,75 +69,7 @@ export default {
         },
       });
     },
-    getUser() {
-      return this.$store.dispatch('user/getUser');
-    },
-  },
-  mounted() {
-    this.getUser();
   },
 };
 
 </script>
-
-<style lang="scss">
-.main_content{
-  margin: 0;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  padding-top: 6rem;
-
-  .pagination_component {
-    display: flex;
-    justify-content: center;
-
-    .pagination_container {
-      list-style: none;
-      display: inline-block;
-      padding: 0;
-      margin-top: 10px;
-
-      .pagination_item {
-        display: inline;
-        text-align: center;
-
-        .pagination_button {
-          float: left;
-          display: block;
-          font-size: 1.1rem;
-          padding: 0;
-          width: 35px;
-          height: 35px;
-          border-radius: 50%;
-          color: #fff;
-          margin-left: 3px;
-          border: 2px solid transparent;
-          background-color: transparent;
-          cursor: pointer;
-
-          &.active {
-            border: 2px solid #e6ba37;
-            border-radius: 50%;
-            color: white;
-            cursor: auto;
-          }
-
-          &:hover {
-            border: 2px solid #e6ba37;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-          }
-        }
-      }
-    }
-  }
-}
-@media screen and (max-width: 600px){
-  .main-content{
-    width: auto;
-  }
-}
-
-</style>

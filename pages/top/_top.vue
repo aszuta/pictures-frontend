@@ -1,9 +1,9 @@
 <template>
   <div class="main_content">
     <div class="content_navigation">
-      <nuxt-link :to="`/top/${dzien}`" class="navigation_link" :class="activeLink === dzien ? 'active' : ''">Top dnia</nuxt-link>
-      <nuxt-link :to="`/top/${tydzien}`" class="navigation_link" :class="activeLink === tydzien ? 'active' : ''">Top tygodnia</nuxt-link>
-      <nuxt-link :to="`/top/${miesiac}`" class="navigation_link" :class="activeLink === miesiac ? 'active' : ''">Top miesiąca</nuxt-link>
+      <nuxt-link :to="`/top/${day}`" class="navigation_link" :class="activeLink === dzien ? 'active' : ''">Top dnia</nuxt-link>
+      <nuxt-link :to="`/top/${week}`" class="navigation_link" :class="activeLink === tydzien ? 'active' : ''">Top tygodnia</nuxt-link>
+      <nuxt-link :to="`/top/${month}`" class="navigation_link" :class="activeLink === miesiac ? 'active' : ''">Top miesiąca</nuxt-link>
     </div>
     <PictureCard
       v-for="picture in searchedPictures"
@@ -65,9 +65,9 @@ export default {
   },
   data() {
     return {
-      dzien: 'dzien',
-      tydzien: 'tydzien',
-      miesiac: 'miesiac',
+      day: 'dzien',
+      week: 'tydzien',
+      month: 'miesiac',
       activeLink: null,
     };
   },
@@ -76,47 +76,5 @@ export default {
       return this.$store.state.user.currentUser;
     },
   },
-  methods: {
-    getUser() {
-      return this.$store.dispatch('user/getUser');
-    },
-  },
-  mounted() {
-    this.getUser();
-  },
 };
 </script>
-
-<style lang="scss">
-.main_content {
-  margin: 0;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  padding-top: 6rem;
-
-  .content_navigation {
-    display: inherit;
-    justify-content: center;
-
-    .navigation_link {
-      margin: 1.2rem 0.3rem;
-      padding: 0.4rem 0.4rem;
-      border: 2px solid #fff;
-      text-align: center;
-      width: 150px;
-      color: #fff;
-
-      &:hover {
-        color: #e6ba37;
-        border: 2px solid #e6ba37;
-      }
-
-      &.active {
-        color: #e6ba37;
-        border: 2px solid #e6ba37;
-      }
-    }
-  }
-}
-</style>

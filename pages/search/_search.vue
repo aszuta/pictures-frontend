@@ -45,25 +45,5 @@ export default {
       return this.$store.state.user.currentUser;
     },
   },
-  methods: {
-    getUser() {
-      return this.$store.dispatch('user/getUser');
-    },
-  },
-  mounted() {
-    this.getUser();
-  },
 };
 </script>
-
-<style lang="scss">
-.search_container {
-  padding-top: 6rem;
-
-  .container_title {
-    display: flex;
-    justify-content: center;
-    color: #fff;
-  }
-}
-</style>
