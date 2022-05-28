@@ -1,0 +1,59 @@
+.vote_container {
+    color: white;
+  
+    .vote_up_container {
+      display: inline-flex;
+      font-size: 1.2rem;
+      justify-content: space-around;
+      padding: 0.3rem 1rem;
+      margin-top: 0.4rem;
+      border-radius: 5px;
+      border: 1px solid #949494;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #949494;
+        border: 1px solid #949494;
+      }
+  
+      &:active {
+        background-color: #e6ba37;
+        border: 1px solid #e6ba37;
+      }
+  
+      .vote_count {
+        margin-left: 15px;
+      }
+    }
+  
+    .vote_down_container {
+      display: inline-flex;
+      font-size: 1.2rem;
+      justify-content: space-around;
+      padding: 0.3rem 1rem;
+      margin-top: 0.4rem;
+      border-radius: 5px;
+      border: 1px solid #949494;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #949494;
+        border: 1px solid #949494;
+      }
+  
+      &:active {
+        background-color: #e6ba37;
+        border: 1px solid #e6ba37;
+      }
+  
+      .vote_count {
+        margin-left: 15px;
+      }
+    }
+  
+    .active {
+      background-color: #e6ba37;
+      border: 1px solid #e6ba37;
+      color: black;
+    }
+  }
