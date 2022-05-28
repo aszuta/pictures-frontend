@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-shadow */
 import jwtDecode from 'jwt-decode';
@@ -28,12 +29,13 @@ export const mutations = {
 };
 
 export const actions = {
-  async loginUser({ commit }, payload) {
-    await this.$axios.post('/api/user/login', payload, {
+  async loginUser({ commit, dispatch }, payload) {
+    await this.$axios.post('/api/auth/login', payload, {
       withCredentials: true,
     });
     const token = this.$cookies.get('authcookie');
     commit('setAccessToken', token);
+    await dispatch('getUser');
   },
 
   async registerUser({ commit }, payload) {
@@ -45,14 +47,15 @@ export const actions = {
   },
 
   async logOutUser({ commit }) {
-    await this.$axios.post('/api/user/logout', {
+    await this.$axios.post('/api/auth/logout', {
       withCredentials: true,
     });
     commit('setAccessToken', null);
+    this.$cookies.removeAll();
   },
 
   async getUser({ commit }) {
-    const res = await this.$axios.$get('/api/user/profile', {
+    const res = await this.$axios.$get('/api/auth/profile', {
       withCredentials: true,
     });
     commit('setUser', res);
@@ -65,9 +68,7 @@ export const actions = {
       try {
         const accessToken = await this.$cookies.get('authcookie');
 
-        if (!accessToken) {
-          return await dispatch('refresh');
-        }
+        if (!accessToken) return dispatch('refresh');
 
         const decoded = await jwtDecode(accessToken);
         const exp = decoded.exp - 30;
@@ -84,7 +85,7 @@ export const actions = {
 
   async refresh({ commit }) {
     this.$cookies.removeAll();
-    await this.$axios.get('/api/user/refresh', {
+    await this.$axios.get('/api/auth/refresh', {
       withCredentials: true,
     });
     const token = this.$cookies.get('authcookie');

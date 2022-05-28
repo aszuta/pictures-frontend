@@ -21,29 +21,28 @@ export const getters = {
 
 export const actions = {
   async addPicture({ commit }, payload) {
-    await this.$axios.post('api/picture/file', payload.formData);
+    await this.$axios.post('api/picture', payload.formData);
   },
 
   async getPictures({ commit }) {
-    const pictures = await this.$axios.$get('api/picture/files');
+    const pictures = await this.$axios.$get('api/picture');
     commit('setPictures', pictures);
   },
 
   async getPicture({ commit }, payload) {
-    const picture = await this.$axios.$get(`api/picture/file/${payload.postId}`);
-    return picture;
+    return this.$axios.$get(`api/picture/${payload.postId}`);
   },
 
-  async getUserPictures({ commit }, payload) {
+  async getUserPictures({ commit }) {
     const accessToken = await this.$cookies.get('authcookie');
     const decoded = await jwtDecode(accessToken);
     const userId = decoded.sub;
-    const pictures = await this.$axios.$get(`api/picture/pictures/${userId}`);
+    const pictures = await this.$axios.$get(`api/picture/file/${userId}`);
     commit('setPictures', pictures);
   },
 
   async deletePicture({ commit }, payload) {
-    await this.$axios.delete(`api/picture/file/${payload}`);
+    await this.$axios.delete(`api/picture/${payload}`);
   },
 
   async addVote({ commit }, payload) {
@@ -57,8 +56,7 @@ export const actions = {
     const accessToken = await this.$cookies.get('authcookie');
     const decoded = await jwtDecode(accessToken);
     const userId = decoded.sub;
-    const vote = await this.$axios.$get(`api/vote/${payload.postId}/${userId}`);
-    return vote;
+    return this.$axios.$get(`api/vote/${payload.postId}/${userId}`);
   },
 
   async deleteVote({ commit }, payload) {
