@@ -30,7 +30,7 @@ export const mutations = {
 
 export const actions = {
   async loginUser({ commit, dispatch }, payload) {
-    await this.$axios.post('/api/auth/login', payload, {
+    await this.$axios.post('/auth/login', payload, {
       withCredentials: true,
     });
     const token = this.$cookies.get('authcookie');
