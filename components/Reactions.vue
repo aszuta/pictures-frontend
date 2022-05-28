@@ -1,5 +1,5 @@
 <template>
-  <div class="vote">
+  <div class="vote_container">
     <div class="vote_up_container" :class="[voteUpActive ? 'active' : '']">
       <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-up']" @click="addVote('voteUp')" @keydown="addVote('voteUp')"/>
       <span class="vote_count">0</span>
@@ -38,8 +38,6 @@ export default {
     };
   },
   created() {
-    console.log(this.voteUpActive);
-    console.log(this.voteDownActive);
     if (this.voteType === 'voteUp') {
       this.voteUpActive = true;
     } else if (this.voteType === 'voteDown') {
@@ -48,7 +46,6 @@ export default {
   },
   methods: {
     async addVote(type) {
-      console.log(this.postId);
       const payload = {
         postId: this.postId,
         vote: {
@@ -56,7 +53,6 @@ export default {
           voteType: type,
         },
       };
-      console.log(payload);
       if (this.voteUpActive === true && type === 'voteUp') {
         await this.$store.dispatch('picture/deleteVote', payload);
         this.voteUpActive = false;
@@ -79,65 +75,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.vote {
-  color: white;
-
-  .vote_up_container {
-    display: inline-flex;
-    font-size: 1.2rem;
-    justify-content: space-around;
-    padding: 0.3rem 1rem;
-    margin-top: 0.4rem;
-    border-radius: 5px;
-    border: 1px solid #949494;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #949494;
-      border: 1px solid #949494;
-    }
-
-    &:active {
-      background-color: #e6ba37;
-      border: 1px solid #e6ba37;
-    }
-
-    .vote_count {
-      margin-left: 15px;
-    }
-  }
-
-  .vote_down_container {
-    display: inline-flex;
-    font-size: 1.2rem;
-    justify-content: space-around;
-    padding: 0.3rem 1rem;
-    margin-top: 0.4rem;
-    border-radius: 5px;
-    border: 1px solid #949494;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #949494;
-      border: 1px solid #949494;
-    }
-
-    &:active {
-      background-color: #e6ba37;
-      border: 1px solid #e6ba37;
-    }
-
-    .vote_count {
-      margin-left: 15px;
-    }
-  }
-
-  .active {
-    background-color: #e6ba37;
-    border: 1px solid #e6ba37;
-    color: black;
-  }
-}
-</style>
