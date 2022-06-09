@@ -24,8 +24,7 @@
         :title="picture.title"
         :filename="picture.filename"
         :filepath="picture.filepath"
-        :votesUp="picture.votesUp"
-        :votesDown="picture.votesDown"
+        :votes="picture.votes"
       />
     </div>
   </main>
@@ -35,8 +34,7 @@
 export default {
   async asyncData({ params: { profile }, store }) {
     const user = await store.dispatch('user/getUser', { id: profile });
-    await store.dispatch('picture/getUserPictures');
-    const data = await store.getters['picture/getPictures'];
+    const data = await store.dispatch('picture/getUserPictures');
     return {
       pictures: data,
       user,

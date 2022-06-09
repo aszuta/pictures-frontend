@@ -12,8 +12,7 @@
       :title="picture.title"
       :filename="picture.filename"
       :filepath="picture.filepath"
-      :votesUp="picture.votesUp"
-      :votesDown="picture.votesDown"
+      :votes="picture.votes"
     />
   </div>
 </template>
@@ -21,8 +20,7 @@
 <script>
 export default {
   async asyncData({ params: { search }, store }) {
-    await store.dispatch('picture/getPictures');
-    const data = await store.getters['picture/getPictures'];
+    const data = await store.dispatch('picture/getPictures');
     const searchedPictures = [];
 
     // eslint-disable-next-line array-callback-return

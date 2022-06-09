@@ -1,81 +1,65 @@
 .section_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 6rem;
-    height: 80vh;
-    color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 6rem;
+  height: 80vh;
+  color: #fff;
   
-    .conteiner_content {
+  .conteiner_content {
+    display: flex;
+    flex-direction: column;
+  
+    .content_form {
       display: flex;
       flex-direction: column;
+      padding: 1rem 2rem;
   
-      .content_form {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 2rem;
-  
-        .form_title {
-          text-align: center;
-          margin: 0.4rem 0;
-        }
-  
-        .form_error {
-          text-align: center;
-          margin: 0.4rem 0;
-          color: #ff6b6b;
-        }
-  
-        .form_input {
-          margin: 0.2rem 0;
-          padding: 0.6rem 1rem;
-          border: 2px solid white;
-          background-color: #262626;
-          font-size: 1.1rem;
-          transition: 0.3s;
-          width: 350px;
-          color: white;
-  
-          &:hover {
-            border: 2px solid #e6ba37;
-            transition: 0.3s;
-          }
-        }
-  
-        .form_button {
-          margin: 1rem 0;
-          padding: 0.6rem 1rem;
-          border: 2px solid #e6ba37;
-          background: #e6ba37;
-          font-size: 1.1rem;
-          letter-spacing: 0.1rem;
-          color: black;
-          cursor: pointer;
-          transition: 0.3s;
-  
-          &:hover {
-            background: #ffd24a;
-            border: 2px solid #ffd24a;
-            color: black;
-            transition: 0.3s;
-          }
-        }
+      .form_title {
+        text-align: center;
+        margin: 0.4rem 0;
       }
   
-      .content_info {
-        display: flex;
-        flex-direction: column;
+      .form_error {
+        text-align: center;
+        margin: 0.4rem 0;
+        color: #ff6b6b;
+      }
   
-        .min_info {
-          display: flex;
-          justify-content: center;
-        }
+      .form_button {
+        margin: 1rem 0;
+        padding: 0.6rem 1rem;
+        border: 2px solid #e6ba37;
+        background: #e6ba37;
+        font-size: 1.1rem;
+        letter-spacing: 0.1rem;
+        color: black;
+        cursor: pointer;
+        transition: 0.3s;
   
-        .sign_up {
-          display: flex;
-          justify-content: center;
-          color: #e6ba37;
+        &:hover {
+          background: #ffd24a;
+          border: 2px solid #ffd24a;
+          color: black;
+          transition: 0.3s;
         }
       }
     }
+  
+    .content_info {
+      display: flex;
+      flex-direction: column;
+  
+      .min_info {
+        display: flex;
+        justify-content: center;
+      }
+  
+      .sign_up {
+        display: flex;
+        justify-content: center;
+        color: #e6ba37;
+      }
+    }
   }
+}

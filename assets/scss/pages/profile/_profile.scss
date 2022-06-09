@@ -3,18 +3,23 @@
   display: flex;
   justify-content: center;
   position: relative;
+
   .main_container {
     display: inherit;
     flex-direction: column;
     align-items: center;
+
     .container_content {
       display: inherit;
+
       .content_info {
         display: inherit;
         flex-direction: column;
+
         .image_container {
           border-radius: 50%;
           border: 4px solid #e6ba37;
+
           .profile_image {
             display: inherit;
             width: 150px;
@@ -23,6 +28,7 @@
             border: 3px solid transparent;
           }
         }
+
         .profile_name {
           display: inherit;
           justify-content: center;
@@ -31,8 +37,10 @@
         }
       }
     }
+
     .container_form {
       padding: 4vh 0;
+
       .form_modal {
         cursor: pointer;
         color: #fff;

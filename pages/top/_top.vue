@@ -16,8 +16,7 @@
       :title="picture.title"
       :filename="picture.filename"
       :filepath="picture.filepath"
-      :votesUp="picture.votesUp"
-      :votesDown="picture.votesDown"
+      :votes="picture.votes"
     />
   </div>
 </template>
@@ -32,10 +31,12 @@ export default {
     // eslint-disable-next-line array-callback-return
     data.map((item) => {
       const param = top;
+      const votesUp = item.votes.votesUp || 0;
+      const votesDown = item.votes.votesDown || 0;
       if (param === 'dzien') {
         const currentDate = new Date();
         const pictureDate = new Date(item.createdAt);
-        const pictureVotes = (item.votesUp - item.votesDown);
+        const pictureVotes = (votesUp - votesDown);
         const found = (currentDate - pictureDate) / 1000;
         if (found < 86400 && pictureVotes >= 100) {
           searchedPictures.push(item);
@@ -43,7 +44,7 @@ export default {
       } else if (param === 'tydzien') {
         const currentDate = new Date();
         const pictureDate = new Date(item.createdAt);
-        const pictureVotes = (item.votesUp - item.votesDown);
+        const pictureVotes = (votesUp - votesDown);
         const found = (currentDate - pictureDate) / 1000;
         if (found < 604800 && pictureVotes >= 200) {
           searchedPictures.push(item);
@@ -51,7 +52,7 @@ export default {
       } else if (param === 'miesiac') {
         const currentDate = new Date();
         const pictureDate = new Date(item.currentAt);
-        const pictureVotes = (item.votesUp - item.votesDown);
+        const pictureVotes = (votesUp - votesDown);
         const found = (currentDate - pictureDate) / 1000;
         if (found < 2629743 && pictureVotes >= 300) {
           searchedPictures.push(item);

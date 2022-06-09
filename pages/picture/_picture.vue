@@ -5,12 +5,10 @@
       :userId="currentUser.id"
       :createdBy="picture.createdBy"
       :createdAt="picture.createdAt"
-      :name="picture.name"
       :title="picture.title"
       :filename="picture.filename"
       :filepath="picture.filepath"
-      :votesUp="picture.votesUp"
-      :votesDown="picture.votesDown"
+      :votes="picture.votes"
     />
     <CommentContainer
       :comments="comments"

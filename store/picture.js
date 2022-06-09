@@ -1,23 +1,8 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-shadow */
 import jwtDecode from 'jwt-decode';
-
-export const state = () => ({
-  pictures: [],
-});
-
-export const mutations = {
-  setPictures(state, pictures) {
-    state.pictures = pictures;
-  },
-};
-
-export const getters = {
-  getPictures(state) {
-    return state.pictures;
-  },
-};
 
 export const actions = {
   async addPicture({ commit }, payload) {
@@ -25,8 +10,7 @@ export const actions = {
   },
 
   async getPictures({ commit }) {
-    const pictures = await this.$axios.$get('api/picture');
-    commit('setPictures', pictures);
+    return this.$axios.$get('api/picture');
   },
 
   async getPicture({ commit }, payload) {
@@ -37,8 +21,7 @@ export const actions = {
     const accessToken = await this.$cookies.get('authcookie');
     const decoded = await jwtDecode(accessToken);
     const userId = decoded.sub;
-    const pictures = await this.$axios.$get(`api/picture/file/${userId}`);
-    commit('setPictures', pictures);
+    return this.$axios.$get(`api/picture/file/${userId}`);
   },
 
   async deletePicture({ commit }, payload) {
@@ -52,11 +35,14 @@ export const actions = {
     });
   },
 
-  async getVote({ commit }, payload) {
-    const accessToken = await this.$cookies.get('authcookie');
-    const decoded = await jwtDecode(accessToken);
-    const userId = decoded.sub;
-    return this.$axios.$get(`api/vote/${payload.postId}/${userId}`);
+  // eslint-disable-next-line consistent-return
+  async getVote({ commit, rootGetters }, payload) {
+    if (rootGetters['user/isLoggedIn'] === true) {
+      const accessToken = await this.$cookies.get('authcookie');
+      const decoded = await jwtDecode(accessToken);
+      const userId = decoded.sub;
+      return this.$axios.$get(`api/vote?postId=${payload.postId}&userId=${userId}`);
+    }
   },
 
   async deleteVote({ commit }, payload) {

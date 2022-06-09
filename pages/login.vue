@@ -4,14 +4,12 @@
       <form class="content_form" method="post" @submit.prevent="login()">
         <h1 class="form_title">Login</h1>
         <div class="form_error">{{ error }}</div>
-        <label for="email">Email: </label>
-        <input id="email" class="form_input" v-model="email" type="text" name="" placeholder="Email">
-        <label for="password">Password: </label>
-        <input id="password" class="form_input" v-model="password" type="password" name="" placeholder="Password">
+        <InputContainer v-model="email" type="text" placeholder="Email" name="email" label="Email: " />
+        <InputContainer v-model="password" type="password" placeholder="Password" name="password" label="Password: "/>
         <button type="submit" class="form_button">Zaloguj</button>
       </form>
       <div class="content_info">
-        <div class="min_info">Nie masz konto?</div>
+        <div class="min_info">Nie masz konta?</div>
         <NuxtLink to="/register" class="sign_up">Zarejestruj się</NuxtLink>
       </div>
     </div>

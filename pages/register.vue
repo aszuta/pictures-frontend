@@ -4,14 +4,11 @@
       <form class="content_form" method="post" @submit.prevent="submit()">
         <h1 class="form_title">Register</h1>
         <div class="form_error">{{ errors.nameError }}</div>
-        <label for="name">Name: </label>
-        <input id="name" class="form_input" v-model="name" type="text" name="" placeholder="Name">
+        <InputContainer v-model="email" type="text" placeholder="Name" name="name" label="Name: " />
         <div class="form_error">{{ errors.emailError }}</div>
-        <label for="email">Email: </label>
-        <input id="email" class="form_input" v-model="email" type="text" name="" placeholder="Email">
+        <InputContainer v-model="email" type="text" placeholder="Email" name="email" label="Email: " />
         <div class="form_error">{{ errors.passwordError }}</div>
-        <label for="password">Password: </label>
-        <input id="password" class="form_input" v-model="password" type="password" name="" placeholder="Password">
+        <InputContainer v-model="email" type="password" placeholder="Password" name="password" label="Password: " />
         <button class="form_button" type="submit">Zarejestruj</button>
       </form>
       <div class="content_info">

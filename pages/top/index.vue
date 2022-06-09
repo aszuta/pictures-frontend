@@ -25,17 +25,18 @@
 <script>
 export default {
   async asyncData({ params: { top }, store }) {
-    await store.dispatch('picture/getPictures');
-    const data = await store.getters['picture/getPictures'];
+    const data = await store.dispatch('picture/getPictures');
     const searchedPictures = [];
 
     // eslint-disable-next-line array-callback-return
     data.map((item) => {
       const param = top;
+      const votesUp = item.votes.votesUp || 0;
+      const votesDown = item.votes.votesDown || 0;
       if (param === 'miesiac') {
         const currentDate = new Date();
         const pictureDate = new Date(item.currentAt);
-        const pictureVotes = (item.votesUp - item.votesDown);
+        const pictureVotes = (votesUp - votesDown);
         const found = (currentDate - pictureDate) / 1000;
         if (found < 2629743 && pictureVotes >= 300) {
           searchedPictures.push(item);

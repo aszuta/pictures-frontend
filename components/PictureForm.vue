@@ -3,48 +3,24 @@
     <div class="modal_wrapper">
       <div class="modal_container" @click.stop="">
         <h2 class="modal_title">Dodaj obrazek</h2>
-        <form
-          @submit.prevent="submit()"
-          enctype="multipart/form-data"
-          class="modal_form"
-        >
+        <form @submit.prevent="submit()" enctype="multipart/form-data" class="modal_form">
           <div class="form_error">{{ errors.titleError }}</div>
-          <label for="title" class="form_label form_title">Dodaj tytuł:</label>
-          <input
-            id="title"
-            v-model="title"
-            type="text"
-            name=""
-            placeholder="Title"
-            class="form_input"
-          />
+          <InputContainer v-model="title" type="text" placeholder="Title" name="title" label="title" />
           <div class="form_error">{{ errors.fileError }}</div>
-          <div class="form_drop_zone" v-if="!file">
+          <div class="form_drop_zone" v-if="!data.file">
             <font-awesome-icon :icon="['fas', 'upload']" class="form_icon"/>
-            <label for="file" class="form_label">Kliknij lub przeciągnij obrazek tutaj</label>
-            <input
-              id="file"
-              type="file"
-              ref="file"
-              accept="image/jpeg,image/png,image/jpg"
-              @change="selectFile"
-              class="upload_input"
-              />
+            <InputContainer v-model="data" name="file" label="Kliknij lub przeciągnij obrazek tutaj" is-file/>
           </div>
           <div class="preview" v-else>
-            <img class="preview_img" v-if="url" :src="url" alt="" />
+            <img class="preview_img" v-if="data.url" :src="data.url" alt="" />
           </div>
           <div class="form_actions">
-            <button v-if="file" class="form_button" type="reset" @click="removeFile">Reset</button>
+            <button v-if="data.file" class="form_button" type="reset" @click="removeFile">Reset</button>
             <button class="form_button" type="submit">Send</button>
           </div>
         </form>
       </div>
-      <div
-        class="close_button"
-        @click="$emit('close')"
-        @keydown.esc="$emit('close')"
-      >
+      <div class="close_button" @click="$emit('close')" @keydown.esc="$emit('close')" >
         <font-awesome-icon :icon="['fas', 'xmark']" />
       </div>
     </div>
@@ -59,8 +35,10 @@ export default {
   data() {
     return {
       title: '',
-      file: null,
-      url: null,
+      data: {
+        url: null,
+        file: null,
+      },
       errors: {
         titleError: null,
         fileError: null,
@@ -68,17 +46,11 @@ export default {
     };
   },
   methods: {
-    selectFile() {
-      // eslint-disable-next-line prefer-destructuring
-      const data = this.$refs.file?.files[0];
-      this.url = URL.createObjectURL(data);
-      this.file = data;
-    },
     async sendFile() {
       const formData = new FormData();
       formData.append('title', this.title);
       formData.append('createdBy', this.$store.state.user.currentUser.id);
-      formData.append('picture', this.file);
+      formData.append('picture', this.data.file);
       await this.$axios.post('/api/picture/file', formData).then(() => {
         this.removeFile();
       });
@@ -87,7 +59,7 @@ export default {
     async submit() {
       const data = {
         title: this.title,
-        file: this.file,
+        file: this.data.file,
       };
       const validation = pictureValidation(data);
       if (validation.errors) {
@@ -102,7 +74,7 @@ export default {
     },
     removeFile() {
       this.title = '';
-      this.file = null;
+      this.data.file = null;
     },
   },
 };

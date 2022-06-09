@@ -6,7 +6,7 @@
           <div class="header_container">
             <img class="container_image" src="@/assets/default_profile_image.png" alt=""/>
           </div>
-          <nuxt-link :to="`/profile/${createdBy}`" class="picture_author">{{ name }}</nuxt-link>
+          <nuxt-link :to="`/profile/${createdBy}`" class="picture_author">{{  }}</nuxt-link>
           <nuxt-link :to="`/picture/${postId}`" class="picture_title">{{ title }}</nuxt-link>
         </div>
         <img class="content_image" :src="`/public/${filename}`" alt="">
@@ -15,11 +15,11 @@
       <div class="vote_container">
         <div class="vote_up_container" :class="[voteUpActive ? 'active' : '']">
           <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-up']" @click="addVote('voteUp')" @keydown="addVote('voteUp')"/>
-          <span class="vote_count">{{ votesUp }}</span>
+          <span class="vote_count">{{ votes.voteUp || 0 }}</span>
         </div>
         <div class="vote_down_container" :class="voteDownActive ? 'active' : ''">
           <font-awesome-icon class="vote_icon" :icon="['far', 'thumbs-down']" @click="addVote('voteDown')" @keydown="addVote('voteDown')"/>
-          <span class="vote_count">{{ votesDown }}</span>
+          <span class="vote_count">{{ votes.voteDown || 0 }}</span>
         </div>
       </div>
     </div>
@@ -42,9 +42,6 @@ export default {
     createdAt: {
       type: String,
     },
-    name: {
-      type: String,
-    },
     title: {
       type: String,
     },
@@ -54,29 +51,31 @@ export default {
     filepath: {
       type: String,
     },
-    votesUp: {
-      type: Number,
-    },
-    votesDown: {
-      type: Number,
-    },
+    votes: {},
   },
   data() {
     return {
       voteUpActive: false,
       voteDownActive: false,
-      score: 0,
       vote: '',
     };
   },
   created() {
-    this.getVote().then(() => {
-      if (this.vote.voteType === 'voteUp') {
-        this.voteUpActive = true;
-      } else if (this.vote.voteType === 'voteDown') {
-        this.voteDownActive = true;
-      }
-    });
+    if (this.isLoggedIn === true) {
+      this.getVote().then(() => {
+        if (this.vote.voteType === 'voteUp') {
+          this.voteUpActive = true;
+        } else if (this.vote.voteType === 'voteDown') {
+          this.voteDownActive = true;
+        }
+      });
+    }
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    isLoggedIn() {
+      return this.$store.getters['user/isLoggedIn'];
+    },
   },
   methods: {
     async getVote() {

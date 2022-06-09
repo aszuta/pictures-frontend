@@ -11,8 +11,7 @@
       :title="picture.title"
       :filename="picture.filename"
       :filepath="picture.filepath"
-      :votesUp="picture.votesUp"
-      :votesDown="picture.votesDown"
+      :votes="picture.votes"
     />
     <div class="pagination_component">
       <ul class="pagination_container">
@@ -37,8 +36,7 @@
 <script>
 export default {
   async asyncData({ store }) {
-    await store.dispatch('picture/getPictures');
-    const pictures = await store.getters['picture/getPictures'];
+    const pictures = await store.dispatch('picture/getPictures');
     return { pictures };
   },
   name: 'Home',

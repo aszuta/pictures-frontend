@@ -6,8 +6,7 @@
         <div class="container_image">
           <img class="image_item" src="@/assets/default_profile_image.png" alt=""/>
         </div>
-        <label class="container_label" for="comment">Dodaj komentarz: </label>
-        <input id="comment" class="container_input" v-model="content" type="text" name="" placeholder="Treść komentarza">
+        <InputContainer v-model="content" type="text" placeholder="Treść komentarza" name="comment" label="Dodaj komentarz: " is-comment/>
         <button class="container_button">
           <font-awesome-icon :icon="['fas', 'paper-plane']" />
         </button>
