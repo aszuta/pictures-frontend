@@ -1,0 +1,73 @@
+.input {
+  display: inherit;
+  flex-direction: inherit;
+  
+  .form_input {
+    margin: 0.2rem 0;
+    padding: 0.6rem 1rem;
+    border: 2px solid white;
+    background-color: #262626;
+    font-size: 1.1rem;
+    transition: 0.3s;
+    width: 100%;
+    color: white;
+  
+    &:hover {
+      border: 2px solid #e6ba37;
+      transition: 0.3s;
+    }
+  }
+  
+  .search_input {
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 40px;
+    text-align: center;
+  }
+  
+  .search_button {
+    float: right;
+    padding: 7px 10px;
+    background-color: #e6ba37;
+    cursor: pointer;
+    border-radius: 40px;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .search_input {
+      width: 300px;
+    }
+  }
+  
+  .form_label {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .form_title {
+    display: none;
+  }
+  
+  .upload_input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+  
+  .container_label {
+    display: none;
+  }
+  
+  .container_input {
+    background-color: transparent;
+    border-bottom: 1px solid #949494;
+    font-size: 1.2rem;
+    outline: 0;
+    color: #fff;
+    margin-right: 10px;
+    width: 510px;
+  }
+}
